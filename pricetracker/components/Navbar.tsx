@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import PricingLogo from '../public/pricing.png'
+import PricingLogo from '@/public/pricing.png'
 const Navbar = () => {
   return (
     //Our Logo and Icon
