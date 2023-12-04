@@ -3,7 +3,10 @@ import React from 'react'
 import rightArrow from '@/public/rightarrow.svg'
 import Searchbar from '@/components/Searchbar'
 import ProductRotation from '@/components/ProductRotation'
-const Home = () => {
+import { getAllProductsFromDB } from '@/lib/actions'
+import ProductCard from '@/components/ProductCard'
+const Home = async () => {
+  const allProducts = await getAllProductsFromDB();
   return (
     <>
       <section className='px-6 md:px-20 py-24'>
@@ -11,7 +14,7 @@ const Home = () => {
           <div className='flex flex-col justify-center'>
             <p className='small-text'>
               The start of your savings journey is here with us:
-              <Image src={rightArrow} className='fill-red-500' alt ='right-arrow' width={20} height={20} />
+              <Image src={rightArrow} alt ='right-arrow' width={20} height={20} />
             </p>
             <h1 className='head-text'>
               Come and Try out <span className='text-green-400'>PriceTracker</span>
@@ -27,10 +30,8 @@ const Home = () => {
       <section className='trending-section'>
         <h2 className='section-text'>Trending Items</h2>
         <div className='flex flex-wrap gap-x-8 gap-y-16'>
-          {['Apple iPhone 15', 'Book', 'Sneakers'].map((item) => (
-            <div>
-              {item}
-            </div>
+          {allProducts?.map((item) => (
+            <ProductCard key={item.id} product={item} />
           ))}
         </div>
       </section>
