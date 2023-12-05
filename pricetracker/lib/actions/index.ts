@@ -7,6 +7,7 @@ import Product from "../models/productModel";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types";
 
+
 export async function AmazonProductScrape(productUrl: string) {
    if(!productUrl) return;
 
@@ -16,7 +17,7 @@ export async function AmazonProductScrape(productUrl: string) {
     if(!productScraped) return;
 
     let product = productScraped;
-    
+
     //prevents adding same items to db
     const existProduct = await Product.findOne({url: productScraped.productUrl});
 
