@@ -31,7 +31,7 @@ const Searchbar = () => {
 
     try {
       setIsLoading(true);
-
+      
       const product = await AmazonProductScrape(searchTerm);
     } catch (error) {
         console.log('@components/Searchbar: ', error);

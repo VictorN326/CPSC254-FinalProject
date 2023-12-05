@@ -1,4 +1,3 @@
-import { time } from "console";
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
@@ -25,7 +24,7 @@ const productSchema = new mongoose.Schema({
     }], default: [],
 }, {timestamps: true});
 
-
+//prevents creating new models with reloading
 const Product = mongoose.models.Product || mongoose.model('Product', productSchema)
 
 export default Product;

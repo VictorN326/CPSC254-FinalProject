@@ -1,12 +1,14 @@
 import PriceInfoCard from "@/components/PriceInfoCard";
 import ProductCard from "@/components/ProductCard";
-import { getProductFromDB, getSimilarProductsFromDB } from "@/lib/actions";
+import { getProductFromDB } from "@/lib/actions";
 import { formatNumber } from "@/lib/utils";
 import { Product } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Modal from "@/components/Modal";
 import React from "react";
+//dynamic routing by id of product
 type Props = {
   params: {
     id: string;
@@ -16,7 +18,7 @@ const ProductInfo = async ({ params: { id } }: Props) => {
   const product: Product = await getProductFromDB(id);
 
   if (!product) redirect("/");
-  const similarProduct = await getSimilarProductsFromDB(id);
+ 
   return (
     <div className="product-container">
       <div className="flex gap-28 xl:flex-row flex-col">
@@ -50,7 +52,7 @@ const ProductInfo = async ({ params: { id } }: Props) => {
                 {product.currency} {formatNumber(product.currentPrice)}
               </p>
               <p className="text-[21px] text-black opacity-50 line-through">
-                {product.currency} {formatNumber(product.currentPrice)}
+                {product.currency} {formatNumber(product.originalPrice)}
               </p>
             </div>
             <div className="product-reviews">
@@ -96,33 +98,12 @@ const ProductInfo = async ({ params: { id } }: Props) => {
               />
             </div>
           </div>
-          Modal
+          <Modal />
         </div>
       </div>
       <div className="flex flex-col gap-16">
-        <button className="btn w-fit mx-auto flex items-center justify-center gap-3 min-w-[200px]">
-          <Image
-            src="/bag.svg"
-            alt="check"
-            width={22}
-            height={22}
-          />
-
-          <Link href="/" className="text-base text-white">
-            Buy Now
-          </Link>
-        </button>
       </div>
-      {similarProduct && similarProduct?.length > 0 && (
-        <div className="py-14 flex flex-col gap-2 w-full">
-          <p className="section-text">Similar Products</p>
-          <div className="flex flex-wrap gap-10 mt-7 w-full">
-            {similarProduct.map((item:any) => (
-              <ProductCard  key={item._id} product={item} />
-            ))}
-          </div>
-        </div>
-      )}
+      
     </div>
   );
 };

@@ -67,8 +67,9 @@ export async function scrapeAmazonProduct(productUrl: string) {
 
         const imageUrls = Object.keys(JSON.parse(image));
         const currency = extractCurrency($('.a-price-symbol'));
-
-        const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "")
+        
+        //not working atm due to issues with selectors
+        const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
         // console.log({title, currentPrice, originalPrice, outOfStock, imageUrls, currency, discountRate});
 
         const data = {
