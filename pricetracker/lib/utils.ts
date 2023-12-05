@@ -37,6 +37,7 @@ export function extractCurrency(element: any) {
 }
 
 // Extracts description from two possible elements from amazon
+//!Get rid of descriptions function
 export function extractDescription($: any) {
   // these are possible elements holding description of the product
   const selectors = [
