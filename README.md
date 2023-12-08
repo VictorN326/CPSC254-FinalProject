@@ -1,4 +1,5 @@
 # CPSC254-FinalProject
+
 Our Final Project for CSUF Computer Science 254 open source development class.
 By Victor Nguyen, Justin Nguyen, and William Sutanto
 
@@ -8,4 +9,4 @@ Justin Nguyen - Did User Interface/Frontend Work
 
 Victor Nguyen - Did Backend and helped teammates in between each role when needed.
 
-William Sutanto - Did Cron Jobs, helped with Email functionality, and fix bugs afterward 
+William Sutanto - Did Cron Jobs, helped with Email functionality, and fix bugs afterward.
