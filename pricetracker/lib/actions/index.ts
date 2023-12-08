@@ -6,6 +6,7 @@ import { connectToMongoDB } from "../mongoose";
 import Product from "../models/productModel";
 import { getAveragePrice, getHighestPrice, getLowestPrice } from "../utils";
 import { User } from "@/types";
+import { generateEmailContent, sendEmail } from "../nodemailer";
 
 
 export async function AmazonProductScrape(productUrl: string) {
@@ -19,7 +20,7 @@ export async function AmazonProductScrape(productUrl: string) {
     let product = productScraped;
 
     //prevents adding same items to db
-    const existProduct = await Product.findOne({url: productScraped.productUrl});
+    const existProduct = await Product.findOne({url: productScraped.url});
 
     if(existProduct) {
       const updatedPriceHistory:any = [
@@ -35,7 +36,7 @@ export async function AmazonProductScrape(productUrl: string) {
         averagePrice: getAveragePrice(updatedPriceHistory),
       }
     }
-   const newProduct = await Product.findOneAndUpdate({url: productScraped.productUrl}, product, {upsert: true, new: true}); 
+   const newProduct = await Product.findOneAndUpdate({url: productScraped.url}, product, {upsert: true, new: true}); 
 
    //page itself will change when values are being modified and doesn't get stuck in cache
    revalidatePath(`/products/${newProduct._id}`);
@@ -69,26 +70,24 @@ export async function getAllProductsFromDB() {
 }
 
 
-export async function addUserEmail(productId:string, email:string) {
+export async function addUserEmail(productId: string, userEmail: string) {
   try {
-    connectToMongoDB();
     const product = await Product.findById(productId);
-    if(!product) return null;
 
-    const userEmailExist = product.users.some((user: User) => user.email === email)
+    if(!product) return;
 
-    if(!userEmailExist) {
-      product.users.push({email: email});
+    const userExists = product.users.some((user: User) => user.email === userEmail);
+
+    if(!userExists) {
+      product.users.push({ email: userEmail });
 
       await product.save();
 
-      // const emailContent = generateEmailBody(product, "Welcome Friend!")
-    }
-    const emails = [...product.emails, email];
-    const updatedProduct = await Product.findByIdAndUpdate(productId, {emails}, {new: true});
-    return updatedProduct;
-  } catch (error:any) {
-    console.log('addUserEmail error', error.message);
-  }
+      const emailContent = await generateEmailContent(product, "WELCOME");
 
+      await sendEmail(emailContent, [userEmail]);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }

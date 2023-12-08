@@ -18,7 +18,7 @@ const ProductInfo = async ({ params: { id } }: Props) => {
   const product: Product = await getProductFromDB(id);
 
   if (!product) redirect("/");
- 
+
   return (
     <div className="product-container">
       <div className="flex gap-28 xl:flex-row flex-col">
@@ -98,12 +98,10 @@ const ProductInfo = async ({ params: { id } }: Props) => {
               />
             </div>
           </div>
-          <Modal />
+          <Modal productId={id} />
         </div>
       </div>
-      <div className="flex flex-col gap-16">
-      </div>
-      
+      <div className="flex flex-col gap-16"></div>
     </div>
   );
 };

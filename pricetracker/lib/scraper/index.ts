@@ -3,8 +3,8 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import { extractCurrency, extractPrice } from "../utils";
 
-export async function scrapeAmazonProduct(productUrl: string) {
-    if(!productUrl) return;
+export async function scrapeAmazonProduct(url: string) {
+    if(!url) return;
 
     const username = String(process.env.BRIGHTDATA_USERNAME);
     const password = String(process.env.BRIGHTDATA_PASSWORD);
@@ -25,7 +25,7 @@ export async function scrapeAmazonProduct(productUrl: string) {
     try {
         //Fetch Amazon product page
 
-        const response = await axios.get(productUrl,options);
+        const response = await axios.get(url,options);
         const $ = cheerio.load(response.data);
         console.log(response.data);
 
@@ -71,7 +71,7 @@ export async function scrapeAmazonProduct(productUrl: string) {
         const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, "");
         // console.log({title, currentPrice, originalPrice, outOfStock, imageUrls, currency, discountRate});
         const data = {
-            productUrl,
+            url,
             currency: currency || '$',
             image: imageUrls[0],
             title,
