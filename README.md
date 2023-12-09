@@ -10,3 +10,7 @@ Justin Nguyen - Did User Interface/Frontend Work
 Victor Nguyen - Did Backend and helped teammates in between each role when needed.
 
 William Sutanto - Did Cron Jobs, helped with Email functionality, and fix bugs afterward.
+
+# License
+
+The project is licensed under the GPLv3.
